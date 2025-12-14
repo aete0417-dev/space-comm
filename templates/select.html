@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>SELECT SIGNAL</h1>
+
+<form action="{{ url_for('select', token=session.get('token')) }}" method="post" class="panel">
+  <p class="hint">신호 발신자를 선택하세요.</p>
+
+  <div class="choices">
+    <label class="choice">
+      <input type="radio" name="user" value="H" required>
+      <span>USER H</span>
+    </label>
+
+    <label class="choice">
+      <input type="radio" name="user" value="M">
+      <span>USER M</span>
+    </label>
+  </div>
+
+  <button type="submit">CONFIRM</button>
+</form>
+{% endblock %}
+

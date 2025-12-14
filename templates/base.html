@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>SPACE COMM</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <div class="frame">
+    <header class="header">
+      <div class="brand">SPACE_COMM // PRIVATE CHANNEL</div>
+      <nav class="nav">
+        <a href="{{ url_for('select', token=session.get('token')) }}">SELECT</a>
+        <a href="{{ url_for('send', token=session.get('token')) }}">SEND</a>
+        <a href="{{ url_for('log', token=session.get('token')) }}">LOG</a>
+      </nav>
+    </header>
+
+    <main class="main">
+      {% block content %}{% endblock %}
+    </main>
+
+    <footer class="footer">
+      <span>NO_DELETE • APPEND_ONLY • UTC_TIMESTAMPS</span>
+    </footer>
+  </div>
+</body>
+</html>
+
+<body>
+  <h1>테스트 텍스트</h1>
+  <div id="app">여기에 내용이 보여야 합니다</div>
+  
+  <script>
+    console.log('JavaScript 실행됨!');
+    alert('페이지 로드 완료!');
+  </script>
+</body>

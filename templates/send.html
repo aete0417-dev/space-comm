@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h1>SEND PAGE TEST</h1>
+<p>현재 선택: {{ character }}</p>
+
+<form method="post" action="{{ url_for('send', token=session.get('token')) }}">
+  <input type="text" name="content" placeholder="test message">
+  <button type="submit">SEND</button>
+</form>
+{% endblock %}
+
