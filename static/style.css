@@ -100,8 +100,7 @@ button:hover { filter: brightness(1.2); }
 .sender { margin-right: 10px; }
 .msg { word-break: break-word; }
 
-body {
-  background: white !important;
-  color: black !important;
-  font-family: monospace;
+.log {
+  max-height: 400px;
+  overflow-y: auto;
 }
