@@ -104,3 +104,11 @@ button:hover { filter: brightness(1.2); }
   max-height: 400px;
   overflow-y: auto;
 }
+
+/* H가 보낸 통신만 흰색 */
+.row.from-h .msg,
+.row.from-h .sender {
+  color: #fff;
+}
+
+
