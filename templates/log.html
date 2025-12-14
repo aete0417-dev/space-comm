@@ -19,6 +19,14 @@
       </div>
     {% endfor %}
   </div>
+
+<div class="row {% if r['sender'] == 'H' %}from-h{% else %}from-m{% endif %}">
+  <span class="ts">{{ r["created_at"] }}</span>
+  <span class="sender">[{{ r["sender"] }}]</span>
+  <span class="msg">{{ r["content"] }}</span>
+</div>
+
+
 </div>
 
 <h2>📡 </h2>
@@ -31,10 +39,5 @@
 
 <a href="/">← User 선택으로</a>
 
-<script>
-  setTimeout(() => {
-    location.reload();
-  }, 5000); // 5초마다 새로고침
-</script>
 
 {% endblock %}

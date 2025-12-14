@@ -1,6 +1,14 @@
 <!doctype html>
 <html lang="ko">
 <head>
+
+  <style>
+   /* Render의 팝업을 숨김 */
+   div[style*="position: fixed"] {
+       display: none !important;
+   }
+   </style>
+
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>SPACE COMM</title>
@@ -27,13 +35,3 @@
   </div>
 </body>
 </html>
-
-<body>
-  <h1>테스트 텍스트</h1>
-  <div id="app">여기에 내용이 보여야 합니다</div>
-  
-  <script>
-    console.log('JavaScript 실행됨!');
-    alert('페이지 로드 완료!');
-  </script>
-</body>
