@@ -162,7 +162,7 @@ def log_page():
         return "Unauthorized", 403
 
     conn = get_db()
-    logs = conn.execute(
+    rows = conn.execute(
         """
         SELECT sender, content, created_at
         FROM messages
@@ -172,7 +172,7 @@ def log_page():
 
     return render_template(
         "log.html",
-        logs=logs,
+        rows=rows,                      # ⭐ 여기
         character=session.get("character")
     )
 
