@@ -10,10 +10,23 @@ import os
 # 기본 설정
 # =====================
 APP_SECRET_KEY = "MAPARAM-AND-ASHER-HARROW"
-ACCESS_TOKEN = "MAPARAM-AND-ASHER-HARROW"
 
 app = Flask(__name__)
 app.secret_key = APP_SECRET_KEY
+
+# =====================
+# 로그인 계정 (2명)
+# =====================
+USERS = {
+    "asher": {
+        "password": "ABC_hello_itsme",
+        "role": "H"
+    },
+    "param": {
+        "password": "MHM_thsis_vela",
+        "role": "M"
+    }
+}
 
 # =====================
 # DB 경로 (Render 안전)
@@ -22,7 +35,7 @@ os.makedirs(app.instance_path, exist_ok=True)
 DB_PATH = os.path.join(app.instance_path, "space.db")
 
 # =====================
-# DB 초기화 (import 시 실행)
+# DB 초기화
 # =====================
 def init_db():
     conn = sqlite3.connect(DB_PATH)
@@ -55,84 +68,74 @@ def close_db(error):
         db.close()
 
 # =====================
-# 비공개 링크(token) 체크
+# 접근 제어 (로그인 필수)
 # =====================
-def check_token():
-    token = request.args.get("token") or session.get("token")
-    if token != ACCESS_TOKEN:
-        return False
-    session["token"] = token
-    return True
-
 @app.before_request
-def require_private_link():
+def require_login():
+    # static, robots, login 은 예외
     if request.path.startswith("/static"):
-        return None
-    if request.path in ["/robots.txt", "/favicon.ico"]:
-        return None
+        return
+    if request.path in ("/login", "/robots.txt"):
+        return
 
-    if not check_token():
-        return ("접근 불가: 올바른 비공개 링크(token)가 필요합니다.", 403)
-
-    return None
+    if not session.get("logged_in"):
+        return redirect(url_for("login"))
 
 @app.after_request
 def add_noindex_headers(resp):
     resp.headers["X-Robots-Tag"] = "noindex, nofollow, noarchive"
     return resp
 
-@app.get("/robots.txt")
-def robots():
-    resp = make_response("User-agent: *\nDisallow: /\n", 200)
-    resp.headers["Content-Type"] = "text/plain; charset=utf-8"
-    return resp
+# =====================
+# 로그인 / 로그아웃
+# =====================
+@app.get("/login")
+def login():
+    return render_template("login.html")
+
+@app.post("/login")
+def login_post():
+    username = request.form.get("username", "")
+    password = request.form.get("password", "")
+
+    user = USERS.get(username)
+    if user and user["password"] == password:
+        session.clear()
+        session["logged_in"] = True
+        session["user"] = username
+        session["character"] = user["role"]
+        return redirect(url_for("send"))
+
+    return render_template(
+        "login.html",
+        error="아이디 또는 비밀번호가 올바르지 않습니다."
+    )
+
+@app.get("/logout")
+def logout():
+    session.clear()
+    return redirect(url_for("login"))
 
 # =====================
 # 라우트
 # =====================
 
-# 첫 진입
 @app.get("/")
 def home():
-    return redirect(url_for("select", token=session.get("token")))
-
-# 캐릭터 선택
-@app.get("/select")
-def select():
-    return render_template(
-        "select.html",
-        character=session.get("character")
-    )
-
-@app.post("/select")
-def select_post():
-    character = request.form.get("user")
-    if character not in ["H", "M"]:
-        return ("잘못된 선택입니다.", 400)
-
-    session["character"] = character
-    return redirect(url_for("send", token=session.get("token")))
+    return redirect(url_for("send"))
 
 # 메시지 입력 페이지
 @app.get("/send")
 def send():
-    character = session.get("character")
-    if character not in ["H", "M"]:
-        return redirect(url_for("select", token=session.get("token")))
-
-    # ⚠️ 여기서 템플릿 이름만 맞추면 됨
     return render_template(
-        "input.html",
-        character=character
+        "send.html",
+        character=session.get("character"),
+        user=session.get("user")
     )
 
-# 메시지 전송
+# 메시지 전송 처리
 @app.post("/send")
 def send_post():
-    character = session.get("character")
-    if character not in ["H", "M"]:
-        return redirect(url_for("select", token=session.get("token")))
-
     content = (request.form.get("content") or "").strip()
     content = " ".join(content.splitlines()).strip()
 
@@ -145,24 +148,20 @@ def send_post():
     db.execute(
         "INSERT INTO messages (sender, content, created_at) VALUES (?, ?, ?)",
         (
-            character,
+            session.get("character"),
             content,
             datetime.utcnow().isoformat(timespec="seconds") + "Z"
         )
     )
     db.commit()
 
-    return redirect(url_for("log_page", token=session.get("token")))
-
+    return redirect(url_for("log_page"))
 
 # 로그 페이지
 @app.get("/log")
 def log_page():
-    if session.get("token") != ACCESS_TOKEN:
-        return "Unauthorized", 403
-
-    conn = get_db()
-    rows = conn.execute(
+    db = get_db()
+    rows = db.execute(
         """
         SELECT sender, content, created_at
         FROM messages
@@ -172,21 +171,27 @@ def log_page():
 
     return render_template(
         "log.html",
-        rows=rows,                      # ⭐ 여기
-        character=session.get("character")
+        rows=rows,
+        character=session.get("character"),
+        user=session.get("user")
     )
 
+# 갤러리 페이지
 @app.get("/gallery")
 def gallery():
     return render_template("gallery.html")
 
-
-
-
-
+# =====================
+# robots.txt
+# =====================
+@app.get("/robots.txt")
+def robots():
+    resp = make_response("User-agent: *\nDisallow: /\n", 200)
+    resp.headers["Content-Type"] = "text/plain; charset=utf-8"
+    return resp
 
 # =====================
-# 실행 (로컬용)
+# 실행
 # =====================
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
