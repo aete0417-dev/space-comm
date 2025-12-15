@@ -2,7 +2,12 @@
 
 {% block content %}
 
-<meta http-equiv="refresh" content="5">
+<script>
+  setTimeout(() => {
+    const token = "{{ session.get('token') }}";
+    window.location.href = "{{ url_for('log_page') }}" + "?token=" + token;
+  }, 5000);
+</script>
 
 <h1>TRANSMISSION LOG</h1>
 
