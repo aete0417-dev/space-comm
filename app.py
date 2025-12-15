@@ -165,7 +165,7 @@ def log_page():
         """
         SELECT sender, content, created_at
         FROM messages
-        ORDER BY id DESC
+        ORDER BY id ASC
         """
     ).fetchall()
 
