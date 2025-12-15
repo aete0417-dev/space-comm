@@ -138,7 +138,7 @@ button:hover { filter: brightness(1.2); }
 
 .log .row { color: #9aa0a6; }
 .log .row.from-h { color: #ffffff; }
-.log .row.from-m { color: #ceffd6; }
+.log .row.from-m { color: #e4ffe9; }
 
 .ts { color: var(--dim); margin-right: 8px; }
 .sender { margin-right: 8px; }

@@ -155,20 +155,25 @@ def send_post():
     return redirect(url_for("log", token=session.get("token")))
 
 # 로그 페이지
-@app.route("/log")
+@app.get("/log")
 def log_page():
-    token = request.args.get("token")
-
-    if token != ACCESS_TOKEN:
+    if session.get("token") != ACCESS_TOKEN:
         return "Unauthorized", 403
 
     conn = get_db()
     logs = conn.execute(
-        "SELECT user, content, created_at FROM logs ORDER BY created_at DESC"
+        """
+        SELECT sender, content, created_at
+        FROM messages
+        ORDER BY id DESC
+        """
     ).fetchall()
 
-    return render_template("log.html", logs=logs)
-
+    return render_template(
+        "log.html",
+        logs=logs,
+        character=session.get("character")
+    )
 
 
 
