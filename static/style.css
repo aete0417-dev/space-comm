@@ -218,7 +218,7 @@ button:hover { filter: brightness(1.2); }
     font-size: 16px;
   }
 
-  /* 로그 메시지 모바일 최적화 (이 부분은 마음에 드신다고 하셨으니 유지) */
+  /* 로그 메시지 모바일 최적화 */
   .log {
     max-height: 60vh;
   }
@@ -240,16 +240,14 @@ button:hover { filter: brightness(1.2); }
   }
 
   .msg {
-    display: block;
-    margin-top: 4px;
+    display: inline; /* block에서 inline으로 변경 */
+    margin-top: 0; /* margin-top 제거 */
   }
 
-  /* 입력 필드는 원래 스타일 유지 (width: 100%는 기본값) */
+  /* 입력 필드는 원래 스타일 유지 */
   .input {
     font-size: 16px; /* iOS 자동 줌 방지만 적용 */
   }
-
-  /* 버튼도 원래대로 (width: 100% 제거) */
 
   /* 갤러리 모바일 최적화 */
   .gallery {
