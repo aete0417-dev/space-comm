@@ -176,6 +176,11 @@ def log_page():
         character=session.get("character")
     )
 
+@app.get("/gallery")
+def gallery():
+    return render_template("gallery.html")
+
+
 
 
 
