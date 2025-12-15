@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h1>IMAGE GALLERY</h1>
+
+<div class="gallery">
+  <img src="/static/img/1.jpg" alt="">
+  <img src="/static/img/2.jpg" alt="">
+  <img src="/static/img/3.jpg" alt="">
+  <img src="/static/img/4.jpg" alt="">
+</div>
+
+<!-- 확대용 오버레이 -->
+<div class="overlay" id="overlay">
+  <img id="overlay-img">
+</div>
+
+<script>
+  const overlay = document.getElementById("overlay");
+  const overlayImg = document.getElementById("overlay-img");
+
+  document.querySelectorAll(".gallery img").forEach(img => {
+    img.onclick = () => {
+      overlayImg.src = img.src;
+      overlay.classList.add("show");
+    };
+  });
+
+  overlay.onclick = () => {
+    overlay.classList.remove("show");
+  };
+</script>
+
+
+{% endblock %}

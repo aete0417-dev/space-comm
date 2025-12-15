@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <title>SPACE_COMM</title>
 
-  <!-- 🔥 이 줄이 핵심 -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 
@@ -17,6 +17,7 @@
         <a href="{{ url_for('select', token=session.get('token')) }}">SELECT</a>
         <a href="{{ url_for('send', token=session.get('token')) }}">SEND</a>
         <a href="{{ url_for('log_page', token=session.get('token')) }}">LOG</a>
+        <a href="{{ url_for('gallery', token=session.get('token')) }}">GALLERY</a>
       </nav>
     </header>
 
