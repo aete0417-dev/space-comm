@@ -105,10 +105,22 @@ button:hover { filter: brightness(1.2); }
   overflow-y: auto;
 }
 
-/* H가 보낸 통신만 흰색 */
-.row.from-h .msg,
-.row.from-h .sender {
-  color: #fff;
+/* 로그 기본 스타일 */
+.log .row {
+  color: #9aa0a6; /* 기본 회색 (USER M 등) */
 }
+
+/* USER H 메시지 */
+.log .row.from-h {
+  color: #ffffff; /* 흰색 */
+}
+
+/* USER M 메시지 (선택사항) */
+.log .row.from-m {
+  color: #7f8c8d;
+}
+
+
+
 
 

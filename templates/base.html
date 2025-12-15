@@ -1,27 +1,14 @@
-<!doctype html>
-<html lang="ko">
-<head>
 
-  <style>
-   /* Render의 팝업을 숨김 */
-   div[style*="position: fixed"] {
-       display: none !important;
-   }
-   </style>
 
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>SPACE COMM</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-</head>
 <body>
   <div class="frame">
+
     <header class="header">
       <div class="brand">SPACE_COMM // PRIVATE CHANNEL</div>
       <nav class="nav">
-        <a href="{{ url_for('select', token=session.get('token')) }}">SELECT</a>
-        <a href="{{ url_for('send', token=session.get('token')) }}">SEND</a>
-        <a href="{{ url_for('log', token=session.get('token')) }}">LOG</a>
+        <a href="{{ url_for('select') }}">SELECT</a>
+        <a href="{{ url_for('send') }}">SEND</a>
+        <a href="{{ url_for('log') }}">LOG</a>
       </nav>
     </header>
 
@@ -32,6 +19,7 @@
     <footer class="footer">
       <span>NO_DELETE • APPEND_ONLY • UTC_TIMESTAMPS</span>
     </footer>
+
   </div>
 </body>
 </html>

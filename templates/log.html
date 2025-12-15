@@ -1,43 +1,32 @@
 {% extends "base.html" %}
+
 {% block content %}
+
+<meta http-equiv="refresh" content="5">
+
 <h1>TRANSMISSION LOG</h1>
+
 <div class="panel">
   <p class="hint">
     총 {{ rows|length }}개 • 현재 선택: {{ character or "NONE" }}
   </p>
 
   <div class="log">
+
     {% if rows|length == 0 %}
       <div class="row">[EMPTY] No transmissions yet.</div>
     {% endif %}
 
     {% for r in rows %}
-      <div class="row">
+      <div class="row {% if r['sender'] == 'H' %}from-h{% else %}from-m{% endif %}">
         <span class="ts">{{ r["created_at"] }}</span>
         <span class="sender">[{{ r["sender"] }}]</span>
         <span class="msg">{{ r["content"] }}</span>
       </div>
     {% endfor %}
+
   </div>
-
-<div class="row {% if r['sender'] == 'H' %}from-h{% else %}from-m{% endif %}">
-  <span class="ts">{{ r["created_at"] }}</span>
-  <span class="sender">[{{ r["sender"] }}]</span>
-  <span class="msg">{{ r["content"] }}</span>
 </div>
 
-
-</div>
-
-<h2>📡 </h2>
-
-<ul>
-{% for line in logs %}
-    <li>{{ line }}</li>
-{% endfor %}
-</ul>
-
-<a href="/">← User 선택으로</a>
-
-
+<a href="{{ url_for('select') }}">← User 선택으로</a>
 {% endblock %}
