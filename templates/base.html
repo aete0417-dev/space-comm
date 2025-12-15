@@ -3,31 +3,32 @@
 <head>
   <meta charset="UTF-8">
   <title>SPACE_COMM</title>
-
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
-
 <body>
-  <div class="frame">
 
-    <header class="header">
-      <div class="brand">SPACE_COMM // PRIVATE CHANNEL</div>
-      <nav class="nav">
-        <a href="{{ url_for('select', token=session.get('token')) }}">SELECT</a>
-        <a href="{{ url_for('send', token=session.get('token')) }}">SEND</a>
-        <a href="{{ url_for('log_page', token=session.get('token')) }}">LOG</a>
-        <a href="{{ url_for('gallery', token=session.get('token')) }}">GALLERY</a>
-      </nav>
-    </header>
+<div class="frame">
+  <header class="header">
+    <div class="brand">SPACE_COMM // PRIVATE CHANNEL</div>
+    <nav class="nav">
+      <a href="{{ url_for('send') }}">SEND</a>
+      <a href="{{ url_for('log_page') }}">LOG</a>
+      <a href="{{ url_for('gallery') }}">GALLERY</a>
+    </nav>
+  </header>
 
-    <main class="main">
-      {% block content %}{% endblock %}
-    </main>
+  <main class="main">
+    {% block content %}{% endblock %}
+  </main>
 
-    <footer class="footer">
-      NO_DELETE • APPEND_ONLY • UTC_TIMESTAMPS
-    </footer>
+  <footer class="footer">
+    NO_DELETE • APPEND_ONLY • UTC_TIMESTAMPS
+  </footer>
+</div>
+
+</body>
+</html>
+
 
   </div>
 </body>
