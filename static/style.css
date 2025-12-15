@@ -188,3 +188,108 @@ button:hover { filter: brightness(1.2); }
 .log .msg {
   font-family: 'JetBrains Mono', monospace;
 }
+
+/* ===== Mobile Optimization ===== */
+@media (max-width: 768px) {
+  body {
+    background: #000 !important;
+    background-image: none !important;
+  }
+
+  .frame {
+    margin: 0;
+    border-radius: 0;
+    border-left: none;
+    border-right: none;
+    min-height: 100vh;
+  }
+
+  .header, .footer, .main {
+    padding: 12px;
+  }
+
+  .brand {
+    font-size: 11px;
+  }
+
+  .nav {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .nav a {
+    padding: 8px 12px;
+    font-size: 12px;
+    flex: 1;
+    text-align: center;
+    min-width: calc(50% - 4px);
+  }
+
+  h1 {
+    font-size: 16px;
+  }
+
+  /* 로그 메시지 모바일 최적화 */
+  .log {
+    max-height: 60vh;
+  }
+
+  .row {
+    padding: 8px;
+    font-size: 13px;
+    word-break: break-word;
+  }
+
+  .ts {
+    display: block;
+    font-size: 10px;
+    margin-bottom: 4px;
+  }
+
+  .sender {
+    font-size: 12px;
+  }
+
+  .msg {
+    display: block;
+    margin-top: 4px;
+  }
+
+  /* 입력 필드 모바일 최적화 */
+  .input {
+    font-size: 16px; /* iOS 자동 줌 방지 */
+    padding: 10px;
+  }
+
+  button {
+    width: 100%;
+    padding: 12px;
+    font-size: 14px;
+  }
+
+  /* 갤러리 모바일 최적화 */
+  .gallery {
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 10px;
+  }
+
+  .panel {
+    padding: 12px;
+  }
+
+  .hint {
+    font-size: 12px;
+  }
+}
+
+/* 작은 모바일 (iPhone SE 등) */
+@media (max-width: 375px) {
+  .nav a {
+    padding: 6px 8px;
+    font-size: 11px;
+  }
+
+  .gallery {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
