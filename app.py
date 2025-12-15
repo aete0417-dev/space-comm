@@ -152,7 +152,8 @@ def send_post():
     )
     db.commit()
 
-    return redirect(url_for("log", token=session.get("token")))
+    return redirect(url_for("log_page", token=session.get("token")))
+
 
 # 로그 페이지
 @app.get("/log")
