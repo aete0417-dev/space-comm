@@ -156,26 +156,29 @@ button:hover { filter: brightness(1.2); }
 }
 .action-link:hover { filter: brightness(1.2); }
 
-/* ===================================================
-   MOBILE OVERRIDE (FORCED)
-   =================================================== */
+/*====================================*/
 
 @media screen and (max-width: 480px) {
 
-  /* 전체 기본 */
+  /* ===== 전체 강제 초기화 ===== */
   * {
     box-sizing: border-box;
+    min-height: auto !important;
   }
 
+  html,
   body {
+    height: auto !important;
+    min-height: auto !important;
     margin: 0 !important;
     padding: 0 !important;
     font-size: 14px !important;
     line-height: 1.5 !important;
     overflow-x: hidden !important;
+    background-attachment: scroll !important;
   }
 
-  /* 제목 */
+  /* ===== 제목 ===== */
   h1 {
     font-size: 1.4rem !important;
     letter-spacing: 0.15em !important;
@@ -183,7 +186,7 @@ button:hover { filter: brightness(1.2); }
     margin: 12px 0 !important;
   }
 
-  /* 패널 */
+  /* ===== 패널 ===== */
   .panel {
     width: 100% !important;
     max-width: 100% !important;
@@ -192,7 +195,7 @@ button:hover { filter: brightness(1.2); }
     border-radius: 8px !important;
   }
 
-  /* 네비게이션 버튼 */
+  /* ===== 네비게이션 ===== */
   .nav,
   .nav-buttons {
     display: flex !important;
@@ -209,7 +212,7 @@ button:hover { filter: brightness(1.2); }
     text-align: center !important;
   }
 
-  /* 로그 영역 */
+  /* ===== 로그 ===== */
   .log {
     font-size: 0.85rem !important;
   }
@@ -237,7 +240,7 @@ button:hover { filter: brightness(1.2); }
     white-space: normal !important;
   }
 
-  /* 입력창 */
+  /* ===== 입력 ===== */
   input,
   textarea {
     width: 100% !important;
@@ -251,7 +254,7 @@ button:hover { filter: brightness(1.2); }
     font-size: 0.9rem !important;
   }
 
-  /* 색상 보정 */
+  /* ===== 색상 ===== */
   .from-h {
     background: rgba(255, 255, 255, 0.12) !important;
   }
@@ -260,3 +263,4 @@ button:hover { filter: brightness(1.2); }
     background: rgba(120, 255, 120, 0.12) !important;
   }
 }
+
