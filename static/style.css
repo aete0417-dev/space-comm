@@ -156,3 +156,64 @@ button:hover { filter: brightness(1.2); }
 }
 .action-link:hover { filter: brightness(1.2); }
 
+/* ===== Mobile quick patch ===== */
+@media (max-width: 768px) {
+
+  body {
+    font-size: 14px;
+  }
+
+  h1 {
+    font-size: 1.4rem;
+    letter-spacing: 0.15em;
+  }
+
+  .panel {
+    padding: 12px;
+    margin: 12px 8px;
+  }
+
+  /* 상단 버튼들 */
+  .nav,
+  .nav-buttons {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .nav a,
+  .nav button {
+    flex: 1 1 30%;
+    text-align: center;
+    padding: 10px 0;
+  }
+
+  /* 로그 영역 */
+  .log {
+    font-size: 0.85rem;
+  }
+
+  .row {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .row .ts {
+    font-size: 0.7rem;
+    opacity: 0.7;
+  }
+
+  .row .sender {
+    font-weight: bold;
+  }
+
+  .row .msg {
+    word-break: break-word;
+  }
+
+  /* 입력창 */
+  input[type="text"],
+  textarea {
+    font-size: 16px; /* iOS 자동 줌 방지 */
+  }
+}
