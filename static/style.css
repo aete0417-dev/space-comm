@@ -156,6 +156,3 @@ button:hover { filter: brightness(1.2); }
 }
 .action-link:hover { filter: brightness(1.2); }
 
-body {
-  outline: 5px solid red !important;
-}
