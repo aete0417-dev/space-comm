@@ -163,3 +163,28 @@ button:hover { filter: brightness(1.2); }
     background-image: none !important;
   }
 }
+
+/*===============================*/
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 14px;
+}
+
+.gallery img {
+  width: 100%;
+  border-radius: 12px;
+  cursor: pointer;
+  border: 1px solid var(--line);
+  background: rgba(0,0,0,0.3);
+}
+
+/* JetBrains Mono 폰트 import 추가 (CSS 파일 최상단에) */
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+/* 기존 코드는 그대로 두고, 아래 내용을 추가 */
+
+/* 메시지 내용만 JetBrains Mono 적용 */
+.log .msg {
+  font-family: 'JetBrains Mono', monospace;
+}
