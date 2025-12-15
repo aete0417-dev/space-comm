@@ -1,16 +1,32 @@
-<h2>User {{ character }} 통신 입력</h2>
+<!-- INPUT_HTML_DEBUG_MARKER -->
+<h1>🔥 DEBUG INPUT PAGE 🔥</h1>
 
-<form action="{{ url_for('send', token=session.get('token')) }}" method="post">
-  <input
-    type="text"
-    name="content"
-    placeholder="메시지 입력"
-    required
+
+
+{% extends "base.html" %}
+
+{% block content %}
+<h1>User {{ character }} TRANSMISSION</h1>
+
+<div class="panel">
+  <form action="{{ url_for('send', token=session.get('token')) }}" method="post">
+    <input
+      type="text"
+      name="content"
+      placeholder="메시지 입력"
+      required
+      class="input"
+    >
+
+    <button type="submit">TRANSMIT</button>
+  </form>
+
+  <a
+    href="{{ url_for('log_page', token=session.get('token')) }}"
+    class="action-link"
   >
-  <button type="submit">전송</button>
-</form>
-
-<a href="{{ url_for('log_page', token=session.get('token')) }}">
-  📜 로그 보기
-</a>
+    📜 LOG VIEW
+  </a>
+</div>
+{% endblock %}
 
