@@ -2,7 +2,7 @@
 
 {% block content %}
 
-<h1>SEND PAGE TEST</h1>
+<h1>SEND PAGE</h1>
 <p>현재 선택: {{ character }}</p>
 
 <form method="post" action="{{ url_for('send', token=session.get('token')) }}">
