@@ -156,64 +156,107 @@ button:hover { filter: brightness(1.2); }
 }
 .action-link:hover { filter: brightness(1.2); }
 
-/* ===== Mobile quick patch ===== */
-@media (max-width: 768px) {
+/* ===================================================
+   MOBILE OVERRIDE (FORCED)
+   =================================================== */
+
+@media screen and (max-width: 768px) {
+
+  /* 전체 기본 */
+  * {
+    box-sizing: border-box;
+  }
 
   body {
-    font-size: 14px;
+    margin: 0 !important;
+    padding: 0 !important;
+    font-size: 14px !important;
+    line-height: 1.5 !important;
+    overflow-x: hidden !important;
   }
 
+  /* 제목 */
   h1 {
-    font-size: 1.4rem;
-    letter-spacing: 0.15em;
+    font-size: 1.4rem !important;
+    letter-spacing: 0.15em !important;
+    text-align: center !important;
+    margin: 12px 0 !important;
   }
 
+  /* 패널 */
   .panel {
-    padding: 12px;
-    margin: 12px 8px;
+    width: 100% !important;
+    max-width: 100% !important;
+    padding: 12px !important;
+    margin: 10px 0 !important;
+    border-radius: 8px !important;
   }
 
-  /* 상단 버튼들 */
+  /* 네비게이션 버튼 */
   .nav,
   .nav-buttons {
-    flex-wrap: wrap;
-    gap: 8px;
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 8px !important;
+    padding: 8px !important;
   }
 
   .nav a,
   .nav button {
-    flex: 1 1 30%;
-    text-align: center;
-    padding: 10px 0;
+    flex: 1 1 30% !important;
+    padding: 10px 0 !important;
+    font-size: 0.85rem !important;
+    text-align: center !important;
   }
 
   /* 로그 영역 */
   .log {
-    font-size: 0.85rem;
+    font-size: 0.85rem !important;
   }
 
   .row {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 4px !important;
+    padding: 8px !important;
+    border-radius: 6px !important;
+    margin-bottom: 6px !important;
   }
 
   .row .ts {
-    font-size: 0.7rem;
-    opacity: 0.7;
+    font-size: 0.7rem !important;
+    opacity: 0.6 !important;
   }
 
   .row .sender {
-    font-weight: bold;
+    font-weight: bold !important;
   }
 
   .row .msg {
-    word-break: break-word;
+    word-break: break-word !important;
+    white-space: normal !important;
   }
 
   /* 입력창 */
-  input[type="text"],
+  input,
   textarea {
-    font-size: 16px; /* iOS 자동 줌 방지 */
+    width: 100% !important;
+    font-size: 16px !important; /* iOS 줌 방지 */
+    padding: 10px !important;
+  }
+
+  button {
+    width: 100% !important;
+    padding: 12px !important;
+    font-size: 0.9rem !important;
+  }
+
+  /* 색상 보정 */
+  .from-h {
+    background: rgba(255, 255, 255, 0.12) !important;
+  }
+
+  .from-m {
+    background: rgba(120, 255, 120, 0.12) !important;
   }
 }
