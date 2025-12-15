@@ -2,18 +2,11 @@
 
 {% block content %}
 
-<script>
-  setTimeout(() => {
-    const token = "{{ session.get('token') }}";
-    window.location.href = "{{ url_for('log_page') }}" + "?token=" + token;
-  }, 5000);
-</script>
-
 <h1>TRANSMISSION LOG</h1>
 
 <div class="panel">
   <p class="hint">
-    총 {{ rows|length }}개 • 현재 선택: {{ character or "NONE" }}
+    총 {{ rows|length }}개 • 현재 사용자: {{ user or character }}
   </p>
 
   <div class="log">
@@ -33,5 +26,8 @@
   </div>
 </div>
 
-<a href="{{ url_for('select') }}">← User 선택으로</a>
+<div style="margin-top: 12px;">
+  <a href="{{ url_for('send') }}">← 메시지 보내기</a>
+</div>
+
 {% endblock %}
