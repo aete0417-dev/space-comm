@@ -1,8 +1,3 @@
-<!-- INPUT_HTML_DEBUG_MARKER -->
-<h1>🔥 DEBUG INPUT PAGE 🔥</h1>
-
-
-
 {% extends "base.html" %}
 
 {% block content %}
@@ -21,12 +16,7 @@
     <button type="submit">TRANSMIT</button>
   </form>
 
-  <a
-    href="{{ url_for('log_page', token=session.get('token')) }}"
-    class="action-link"
-  >
-    📜 LOG VIEW
-  </a>
+ 
 </div>
 {% endblock %}
 
