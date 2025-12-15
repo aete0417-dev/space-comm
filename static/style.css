@@ -264,3 +264,16 @@ button:hover { filter: brightness(1.2); }
   }
 }
 
+/* ===== iOS Safari viewport fix ===== */
+@supports (-webkit-touch-callout: none) {
+
+  html, body {
+    height: auto !important;
+    min-height: auto !important;
+  }
+
+  body {
+    min-height: 100dvh !important; /* 핵심 */
+    background-attachment: scroll !important;
+  }
+}
