@@ -203,24 +203,22 @@ button:hover { filter: brightness(1.2); }
     font-size: 11px;
   }
 
+  /* 네비게이션은 원래대로 (1줄 유지) */
   .nav {
-    flex-wrap: wrap;
     gap: 8px;
+    overflow-x: auto;
   }
 
   .nav a {
-    padding: 8px 12px;
     font-size: 12px;
-    flex: 1;
-    text-align: center;
-    min-width: calc(50% - 4px);
+    white-space: nowrap;
   }
 
   h1 {
     font-size: 16px;
   }
 
-  /* 로그 메시지 모바일 최적화 */
+  /* 로그 메시지 모바일 최적화 (이 부분은 마음에 드신다고 하셨으니 유지) */
   .log {
     max-height: 60vh;
   }
@@ -246,17 +244,12 @@ button:hover { filter: brightness(1.2); }
     margin-top: 4px;
   }
 
-  /* 입력 필드 모바일 최적화 */
+  /* 입력 필드는 원래 스타일 유지 (width: 100%는 기본값) */
   .input {
-    font-size: 16px; /* iOS 자동 줌 방지 */
-    padding: 10px;
+    font-size: 16px; /* iOS 자동 줌 방지만 적용 */
   }
 
-  button {
-    width: 100%;
-    padding: 12px;
-    font-size: 14px;
-  }
+  /* 버튼도 원래대로 (width: 100% 제거) */
 
   /* 갤러리 모바일 최적화 */
   .gallery {
@@ -275,6 +268,10 @@ button:hover { filter: brightness(1.2); }
 
 /* 작은 모바일 (iPhone SE 등) */
 @media (max-width: 375px) {
+  .nav {
+    gap: 6px;
+  }
+  
   .nav a {
     padding: 6px 8px;
     font-size: 11px;
