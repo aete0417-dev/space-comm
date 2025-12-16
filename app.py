@@ -29,10 +29,16 @@ USERS = {
 }
 
 # =====================
-# DB 경로 (Render 안전)
+# DB 경로 (영구 저장)
 # =====================
-os.makedirs(app.instance_path, exist_ok=True)
-DB_PATH = os.path.join(app.instance_path, "space.db")
+if os.environ.get('DATABASE_PATH'):
+    # 배포 환경: 환경변수로 지정된 영구 경로 사용
+    DB_PATH = os.environ.get('DATABASE_PATH')
+    os.makedirs(os.path.dirname(DB_PATH), exist_ok=True)
+else:
+    # 로컬 개발 환경
+    os.makedirs(app.instance_path, exist_ok=True)
+    DB_PATH = os.path.join(app.instance_path, "space.db")
 
 # =====================
 # DB 초기화
