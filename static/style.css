@@ -199,6 +199,10 @@ button:hover { filter: brightness(1.2); }
     padding: 12px;
   }
 
+  .footer {
+    font-size: 10px; 
+  }
+
   .brand {
     font-size: 11px;
   }
