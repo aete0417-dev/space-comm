@@ -2,7 +2,6 @@ from flask import (
     Flask, request, session, redirect,
     url_for, render_template, g, make_response
 )
-import sqlite3
 from datetime import datetime
 import os
 
@@ -29,44 +28,66 @@ USERS = {
 }
 
 # =====================
-# DB 경로 (영구 저장)
+# DB 연결 (PostgreSQL)
 # =====================
-if os.environ.get('DATABASE_PATH'):
-    # 배포 환경: 환경변수로 지정된 영구 경로 사용
-    DB_PATH = os.environ.get('DATABASE_PATH')
-    os.makedirs(os.path.dirname(DB_PATH), exist_ok=True)
+DATABASE_URL = os.environ.get('DATABASE_URL')
+
+if DATABASE_URL:
+    # PostgreSQL 사용 (배포 환경)
+    import psycopg2
+    from psycopg2.extras import RealDictCursor
+    
+    def get_db():
+        if "db" not in g:
+            g.db = psycopg2.connect(DATABASE_URL)
+        return g.db
+    
+    def init_db():
+        conn = psycopg2.connect(DATABASE_URL)
+        cur = conn.cursor()
+        cur.execute("""
+            CREATE TABLE IF NOT EXISTS messages (
+                id SERIAL PRIMARY KEY,
+                sender TEXT NOT NULL,
+                content TEXT NOT NULL,
+                created_at TEXT NOT NULL
+            )
+        """)
+        conn.commit()
+        cur.close()
+        conn.close()
+    
 else:
-    # 로컬 개발 환경
+    # SQLite 사용 (로컬 개발 환경)
+    import sqlite3
+    
     os.makedirs(app.instance_path, exist_ok=True)
     DB_PATH = os.path.join(app.instance_path, "space.db")
-
-# =====================
-# DB 초기화
-# =====================
-def init_db():
-    conn = sqlite3.connect(DB_PATH)
-    conn.execute("""
-        CREATE TABLE IF NOT EXISTS messages (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            sender TEXT NOT NULL,
-            content TEXT NOT NULL,
-            created_at TEXT NOT NULL
-        )
-    """)
-    conn.commit()
-    conn.close()
+    
+    def get_db():
+        if "db" not in g:
+            g.db = sqlite3.connect(DB_PATH)
+            g.db.row_factory = sqlite3.Row
+        return g.db
+    
+    def init_db():
+        conn = sqlite3.connect(DB_PATH)
+        conn.execute("""
+            CREATE TABLE IF NOT EXISTS messages (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                sender TEXT NOT NULL,
+                content TEXT NOT NULL,
+                created_at TEXT NOT NULL
+            )
+        """)
+        conn.commit()
+        conn.close()
 
 init_db()
 
 # =====================
-# DB 관리
+# DB 종료
 # =====================
-def get_db():
-    if "db" not in g:
-        g.db = sqlite3.connect(DB_PATH)
-        g.db.row_factory = sqlite3.Row
-    return g.db
-
 @app.teardown_appcontext
 def close_db(error):
     db = g.pop("db", None)
@@ -78,7 +99,6 @@ def close_db(error):
 # =====================
 @app.before_request
 def require_login():
-    # static, robots, login 은 예외
     if request.path.startswith("/static"):
         return
     if request.path in ("/login", "/robots.txt"):
@@ -151,15 +171,31 @@ def send_post():
         return ("메시지는 240자 이하로 해주세요.", 400)
 
     db = get_db()
-    db.execute(
-        "INSERT INTO messages (sender, content, created_at) VALUES (?, ?, ?)",
-        (
-            session.get("character"),
-            content,
-            datetime.utcnow().isoformat(timespec="seconds") + "Z"
+    
+    if DATABASE_URL:
+        # PostgreSQL
+        cur = db.cursor()
+        cur.execute(
+            "INSERT INTO messages (sender, content, created_at) VALUES (%s, %s, %s)",
+            (
+                session.get("character"),
+                content,
+                datetime.utcnow().isoformat(timespec="seconds") + "Z"
+            )
         )
-    )
-    db.commit()
+        db.commit()
+        cur.close()
+    else:
+        # SQLite
+        db.execute(
+            "INSERT INTO messages (sender, content, created_at) VALUES (?, ?, ?)",
+            (
+                session.get("character"),
+                content,
+                datetime.utcnow().isoformat(timespec="seconds") + "Z"
+            )
+        )
+        db.commit()
 
     return redirect(url_for("log_page"))
 
@@ -167,13 +203,28 @@ def send_post():
 @app.get("/log")
 def log_page():
     db = get_db()
-    rows = db.execute(
-        """
-        SELECT sender, content, created_at
-        FROM messages
-        ORDER BY id ASC
-        """
-    ).fetchall()
+    
+    if DATABASE_URL:
+        # PostgreSQL
+        cur = db.cursor(cursor_factory=RealDictCursor)
+        cur.execute(
+            """
+            SELECT sender, content, created_at
+            FROM messages
+            ORDER BY id ASC
+            """
+        )
+        rows = cur.fetchall()
+        cur.close()
+    else:
+        # SQLite
+        rows = db.execute(
+            """
+            SELECT sender, content, created_at
+            FROM messages
+            ORDER BY id ASC
+            """
+        ).fetchall()
 
     return render_template(
         "log.html",
@@ -204,5 +255,5 @@ if __name__ == "__main__":
     app.run(
         host="0.0.0.0",
         port=port,
-        debug=True
+        debug=False  # 배포 시에는 False로
     )
