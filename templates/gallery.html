@@ -3,10 +3,35 @@
 
 <h1>IMAGE GALLERY</h1>
 
+<!-- 이미지 추가 폼 -->
+<div class="panel" style="margin-bottom: 20px;">
+  <p class="hint">이미지 URL을 입력하세요 (현재: {{ character }})</p>
+  <form method="post" action="{{ url_for('gallery') }}">
+    <input 
+      class="input" 
+      name="image_url" 
+      placeholder="https://example.com/image.jpg" 
+      required
+    >
+    <button type="submit">이미지 추가</button>
+  </form>
+</div>
+
+<!-- 갤러리 그리드 -->
 <div class="gallery">
-  <img src="{{ url_for('static', filename='1.jpg') }}" alt="">
-  <img src="{{ url_for('static', filename='2.jpg') }}" alt="">
-  <img src="{{ url_for('static', filename='3.jpg') }}" alt="">
+  {% if images|length == 0 %}
+    <p class="hint">아직 업로드된 이미지가 없습니다.</p>
+  {% endif %}
+  
+  {% for img in images %}
+    <div class="gallery-item">
+      <img src="{{ img['image_url'] }}" alt="Gallery image" onerror="this.src='https://via.placeholder.com/300x200?text=Image+Not+Found'">
+      <div class="gallery-info">
+        <span class="uploader">[{{ img['uploader'] }}]</span>
+        <span class="date">{{ img['created_at'][:10] }}</span>
+      </div>
+    </div>
+  {% endfor %}
 </div>
 
 <!-- 확대용 오버레이 -->
